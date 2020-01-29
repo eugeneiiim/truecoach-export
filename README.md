@@ -1,7 +1,11 @@
 # truecoach-export
 
-## Run locally
+## Compile
 ```
-tsc
+tsc --watch
+```
+
+## Run
+```
 TRUECOACH_USERNAME=... TRUECOACH_PASSWORD=... node dest/index.js
 ```
