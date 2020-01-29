@@ -20,6 +20,7 @@
     "puppeteer": "^2.1.0"
   },
   "devDependencies": {
+    "@types/puppeteer": "^2.0.0",
     "typescript": "^3.7.5"
   }
 }
