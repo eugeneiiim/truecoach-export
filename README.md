@@ -3,5 +3,5 @@
 ## Run locally
 ```
 tsc
-node dest/index.js
+TRUECOACH_USERNAME=... TRUECOACH_PASSWORD=... node dest/index.js
 ```
