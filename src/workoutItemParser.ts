@@ -11,12 +11,25 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
       date,
       exercise,
       reps: parseInt(reps),
-      rpe: rpe,
+      rpe,
     }
   }).value()
 
-  const lastLine = lines[lines.length - 1]
-  console.log(lastLine);
+  const backoffsLine = lines[lines.length - 1]
 
-  return sets
+  // Ex: -5% x 4 reps x 2 sets
+  const [rpe, repsStr, setsStr] =
+    _(backoffsLine).split('x').map(s => s.trim()).value()
+
+  const reps = parseInt(repsStr.split(' ')[0])
+  const numSets = parseInt(setsStr.split(' ')[0])
+
+  const backoffSets = _.map(_.range(numSets), _i => ({
+    date,
+    exercise,
+    rpe,
+    reps
+  }))
+
+  return sets.concat(backoffSets)
 }
