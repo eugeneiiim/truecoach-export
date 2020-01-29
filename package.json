@@ -4,7 +4,7 @@
   "description": "## Install Rust Go to https://rustup.rs/ and run the command provided.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava dest/test/**/*"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/puppeteer": "^2.0.0",
+    "ava": "^3.1.0",
     "typescript": "^3.7.5"
   }
 }

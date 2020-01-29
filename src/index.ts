@@ -3,29 +3,7 @@ import * as _ from 'lodash'
 import * as fs from 'fs'
 const fsPromises = fs.promises;
 
-interface Workout {
-  id: number
-  due: string
-  // workout_item_ids: number[]
-}
-
-interface WorkoutItem {
-  name: string
-  info: string
-  workout_id: number
-}
-
-interface WorkoutsResponse {
-  workouts: Workout[]
-  workout_items: WorkoutItem[]
-}
-
-interface WorkoutSet {
-  date: string
-  exercise: string
-  reps: number
-  rpe: string
-}
+import * as workoutItemParser from './workoutItemParser'
 
 async function _queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   const browser = await puppeteer.launch({ headless: true })
@@ -81,25 +59,11 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
 
   const workoutSets = _(workoutItems).flatMap((workoutItem: WorkoutItem) => {
     const workout = workoutById[workoutItem.workout_id];
-
-    const lines = _(workoutItem.info.split('\n'))
-      .map(l => l.replace('•', '').trim())
-      .value()
-
-    const sets = _(lines).slice(0, lines.length - 1).map(l => {
-      const [reps, rpe] = l.split('@')
-      return {
-        date: workout.due,
-        exercise: workoutItem.name.trim(),
-        reps: parseInt(reps),
-        rpe: rpe,
-      }
-    }).value()
-
-    const lastLine = lines[lines.length - 1]
-    console.log(lastLine);
-
-    return sets
+    return workoutItemParser.infoToSets(
+      workout.due,
+      workoutItem.name.trim(),
+      workoutItem.info
+    )
   }).sortBy('date').value()
 
   _.each(workoutSets, s => {
