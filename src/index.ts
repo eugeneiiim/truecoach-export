@@ -5,7 +5,7 @@ const fsPromises = fs.promises;
 
 import * as workoutItemParser from './workoutItemParser'
 
-async function _queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
+async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   const browser = await puppeteer.launch({ headless: true })
   const page = await browser.newPage()
 
@@ -18,7 +18,6 @@ async function _queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
     page.on('response', async response => {
       if (response.url().indexOf('proxy/api/clients/159147/workouts') !== -1) {
         const responseRaw = await response.text()
-        console.log(responseRaw);
         resolve(JSON.parse(responseRaw) as WorkoutsResponse)
         await browser.close()
       }
@@ -29,25 +28,9 @@ async function _queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   })
 }
 
-async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
-  return JSON.parse(await fsPromises.readFile('./sample.json', 'utf8'))
-
-  // return {
-  //   workouts: [{
-  //     id: 1,
-  //     due: '2020-02-06',
-  //   }],
-  //   workout_items: [{
-  //     workout_id: 1,
-  //     name: 'Deadlift',
-  //     info: '• 4@6\n• 4@7\n• 4@8\n• -5% x 4 reps x 2 sets',
-  //   }, {
-  //     workout_id: 1,
-  //     name: 'Banded Bench Press',
-  //     info: '• 3@7\n• 3@8\n• 3@9\n• 80% e1RM x 3 reps x 2 sets',
-  //   }]
-  // }
-}
+// async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
+//   return JSON.parse(await fsPromises.readFile('./sample.json', 'utf8'))
+// }
 
 (async () => {
   const workoutsResponse = await queryTruecoachWorkouts()
