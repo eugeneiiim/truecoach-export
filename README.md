@@ -7,5 +7,5 @@ tsc --watch
 
 ## Run
 ```
-TRUECOACH_USERNAME=... TRUECOACH_PASSWORD=... node dest/src/index.js
+TRUECOACH_GYM=... TRUECOACH_USERNAME=... TRUECOACH_PASSWORD=... node dest/src/index.js
 ```

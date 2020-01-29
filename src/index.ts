@@ -9,7 +9,7 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   const browser = await puppeteer.launch({ headless: true })
   const page = await browser.newPage()
 
-  await page.goto('https://sf-iron.truecoach.co/login')
+  await page.goto(`https://${process.env.TRUECOACH_GYM}.truecoach.co/login`)
 
   await page.type('#email', process.env.TRUECOACH_USERNAME)
   await page.type('#password', process.env.TRUECOACH_PASSWORD)
