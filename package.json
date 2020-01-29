@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/eugeneiiim/truecoach-export#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.149",
     "lodash": "^4.17.15",
     "puppeteer": "^2.1.0"
   },
