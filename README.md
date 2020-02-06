@@ -1,5 +1,10 @@
 # truecoach-export
 
+## Initial setup
+```
+yarn
+```
+
 ## Compile
 ```
 tsc --watch
