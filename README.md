@@ -1,5 +1,7 @@
 # truecoach-export
 
+Exports [SF Iron](https://www.sf-iron.com/)'s programs from [Truecoach](https://truecoach.co/) to CSV.
+
 ## Initial setup
 ```
 yarn
