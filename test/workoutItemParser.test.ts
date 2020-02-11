@@ -58,3 +58,22 @@ test('no backoffs', t => {
     { date, exercise, reps: 8, rpe: '9' },
   ]))
 })
+
+test('backoffs -5% x 5 reps x 3 sets', t => {
+  const date = '2020-02-18'
+  const exercise = '1 Count Pause Bench Press'
+
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '• 1@8\n• 5@9\n• -5% x 5 reps x 3 sets\n',
+  )
+
+  t.true(_.isEqual(sets, [
+    { date, exercise, reps: 1, rpe: '8' },
+    { date, exercise, reps: 5, rpe: '9' },
+    { date, exercise, reps: 5, rpe: '-5%' },
+    { date, exercise, reps: 5, rpe: '-5%' },
+    { date, exercise, reps: 5, rpe: '-5%' },
+  ]))
+})
