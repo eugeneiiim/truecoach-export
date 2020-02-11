@@ -15,7 +15,7 @@ function parseNumSets(s: string) {
 }
 
 export function infoToSets(date: string, exercise: string, info: string): WorkoutSet[] {
-  const lines = _(info).split('\n')
+  const lines = _(info.trim()).split('\n')
     .map(l => l.replace('•', '').trim())
     .value()
 
