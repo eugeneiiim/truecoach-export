@@ -77,3 +77,21 @@ test('backoffs -5% x 5 reps x 3 sets', t => {
     { date, exercise, reps: 5, rpe: '-5%' },
   ]))
 })
+
+test('backoffs -5% x 6 reps', t => {
+  const date = '2020-02-25'
+  const exercise = 'Pin bench at chest height'
+
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '• 6@7\n• 6@8\n• 6@9\n• -5% x 6 reps\n'
+  )
+
+  t.true(_.isEqual(sets, [
+    { date, exercise, reps: 6, rpe: '7' },
+    { date, exercise, reps: 6, rpe: '8' },
+    { date, exercise, reps: 6, rpe: '9' },
+    { date, exercise, reps: 6, rpe: '-5%' },
+  ]))
+})
