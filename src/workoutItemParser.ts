@@ -20,6 +20,10 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
     .value()
 
   return _.flatMap(lines, l => {
+    if (l === 'Opener') {
+      return [{ date, exercise, reps: 1, rpe: 'Opener'}]
+    }
+
     const xCount = (l.match(/x/g) || []).length
     if (xCount === 0) {
       // Ex: 8@9
