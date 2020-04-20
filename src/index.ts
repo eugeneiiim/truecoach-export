@@ -1,7 +1,8 @@
 import * as puppeteer from 'puppeteer'
 import * as _ from 'lodash'
-import * as fs from 'fs'
-//const fsPromises = fs.promises;
+
+// import * as fs from 'fs'
+// const fsPromises = fs.promises;
 
 import * as workoutItemParser from './workoutItemParser'
 
