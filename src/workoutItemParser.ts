@@ -62,5 +62,12 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
     .map(l => l.replace('•', '').trim())
     .value()
 
-  return _.flatMap(lines, _.partial(processLine, date, exercise))
+  return _.flatMap(lines, l => {
+    try {
+      return processLine(date, exercise, l)
+    } catch (e) {
+      console.error(e)
+      return []
+    }
+  })
 }
