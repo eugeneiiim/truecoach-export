@@ -1,7 +1,8 @@
 import * as puppeteer from 'puppeteer'
 import * as _ from 'lodash'
-import * as fs from 'fs'
-const fsPromises = fs.promises;
+
+// import * as fs from 'fs'
+// const fsPromises = fs.promises;
 
 import * as workoutItemParser from './workoutItemParser'
 
@@ -11,8 +12,8 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
 
   await page.goto(`https://${process.env.TRUECOACH_GYM}.truecoach.co/login`)
 
-  await page.type('#email', process.env.TRUECOACH_USERNAME)
-  await page.type('#password', process.env.TRUECOACH_PASSWORD)
+  await page.type('*[data-test="email"]', process.env.TRUECOACH_USERNAME)
+  await page.type('*[data-test="password"]', process.env.TRUECOACH_PASSWORD)
 
   return new Promise(async function(resolve, _reject) {
     page.on('response', async response => {

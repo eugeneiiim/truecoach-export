@@ -110,3 +110,16 @@ test('opener', t => {
     { date, exercise, reps: 1, rpe: 'Opener' },
   ]))
 })
+
+test('ignores invalid line', t => {
+  const date = '2020-03-19'
+  const exercise = '1 Count Pause Bench Press'
+
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '15-20 reps @8 on first set x 3 total\n'
+  )
+
+  t.true(_.isEqual(sets, []))
+})
