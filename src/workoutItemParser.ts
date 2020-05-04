@@ -81,9 +81,8 @@ export function workoutsToSets(workouts: Workout[], workoutItems: WorkoutItem[])
       return _.extend(item, { date: workout.due })
     })
     .sortBy(['date', 'position'])
-    .flatMap((item: WorkoutItem) => {
-      const workout = workoutById[item.workout_id]
-      return infoToSets(workout.due, item.name.trim(), item.info)
-    })
+    .flatMap(
+      (item: WorkoutItem & { date: string }) => infoToSets(item.date, item.name.trim(), item.info)
+    )
     .value()
 }
