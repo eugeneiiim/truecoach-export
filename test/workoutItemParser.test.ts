@@ -124,9 +124,14 @@ test('ignores invalid line', t => {
   t.true(_.isEqual(sets, []))
 })
 
-test('sorts workouts correctly', t => {
-  const workouts = [{ id: 1, due: '2020-05-04' }]
+test('sorts workouts by date and position', t => {
+  const workouts = [{ id: 1, due: '2020-05-04' }, { id: 2, due: '2020-05-05' }]
   const workoutItems = [{
+    workout_id: 2,
+    name: 'Competition Style Bench Press',
+    info: '• 70% e1RM x 6 reps x 1 sets',
+    position: 2,
+  }, {
     workout_id: 1,
     name: '3-0-0 Tempo RDL',
     info: '• 10@7 x 1 sets',
@@ -150,5 +155,10 @@ test('sorts workouts correctly', t => {
     exercise: '3-0-0 Tempo RDL',
     rpe: '7',
     reps: 10
+  }, {
+    date: '2020-05-05',
+    exercise: 'Competition Style Bench Press',
+    rpe: '70% e1RM',
+    reps: 6
   }]))
 })
