@@ -8,6 +8,7 @@ interface WorkoutItem {
   name: string
   info: string
   workout_id: number
+  position: number
 }
 
 interface WorkoutsResponse {

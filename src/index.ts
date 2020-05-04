@@ -39,17 +39,7 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   const workouts = workoutsResponse.workouts
   const workoutItems = workoutsResponse.workout_items
 
-  const workoutById = _.keyBy(workouts, 'id')
-
-  const workoutSets = _(workoutItems).flatMap((workoutItem: WorkoutItem) => {
-    const workout = workoutById[workoutItem.workout_id];
-    return workoutItemParser.infoToSets(
-      workout.due,
-      workoutItem.name.trim(),
-      workoutItem.info
-    )
-  }).sortBy('date').value()
-
+  const workoutSets = workoutItemParser.workoutsToSets(workouts, workoutItems)
   _.each(workoutSets, s => {
     console.log(`${s.date},${s.exercise},${s.reps},${s.rpe}`);
   })

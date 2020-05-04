@@ -71,3 +71,18 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
     }
   })
 }
+
+export function workoutsToSets(workouts: Workout[], workoutItems: WorkoutItem[]): WorkoutSet[] {
+  const workoutById = _.keyBy(workouts, 'id')
+
+  return _(workoutItems)
+    .map((item: WorkoutItem) => {
+      const workout = workoutById[item.workout_id]
+      return _.extend(item, { date: workout.due })
+    })
+    .sortBy(['date', 'position'])
+    .flatMap(
+      (item: WorkoutItem & { date: string }) => infoToSets(item.date, item.name.trim(), item.info)
+    )
+    .value()
+}
