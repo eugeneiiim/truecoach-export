@@ -39,7 +39,7 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   const workouts = workoutsResponse.workouts
   const workoutItems = workoutsResponse.workout_items
 
-  const workoutSets = workoutItemParser.workoutInfoToSets(workouts, workoutItems)
+  const workoutSets = workoutItemParser.workoutsToSets(workouts, workoutItems)
   _.each(workoutSets, s => {
     console.log(`${s.date},${s.exercise},${s.reps},${s.rpe}`);
   })

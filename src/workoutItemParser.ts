@@ -72,7 +72,7 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
   })
 }
 
-export function workoutInfoToSets(workouts: Workout[], workoutItems: WorkoutItem[]): WorkoutSet[] {
+export function workoutsToSets(workouts: Workout[], workoutItems: WorkoutItem[]): WorkoutSet[] {
   const workoutById = _.keyBy(workouts, 'id')
 
   return _(workoutItems).flatMap((workoutItem: WorkoutItem) => {
