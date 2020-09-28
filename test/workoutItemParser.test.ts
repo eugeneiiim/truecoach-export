@@ -16,11 +16,11 @@ test('backoffs - -5% x 4 reps x 2 sets', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 4, rpe: '6' },
-    { date, exercise, reps: 4, rpe: '7' },
-    { date, exercise, reps: 4, rpe: '8' },
-    { date, exercise, reps: 4, rpe: '-5%' },
-    { date, exercise, reps: 4, rpe: '-5%' },
+    { date, exercise, reps: '4', rpe: '6' },
+    { date, exercise, reps: '4', rpe: '7' },
+    { date, exercise, reps: '4', rpe: '8' },
+    { date, exercise, reps: '4', rpe: '-5%' },
+    { date, exercise, reps: '4', rpe: '-5%' },
   ]))
 })
 
@@ -35,10 +35,10 @@ test('backoffs - 8@9 x 2 sets', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 8, rpe: '7' },
-    { date, exercise, reps: 8, rpe: '8' },
-    { date, exercise, reps: 8, rpe: '9' },
-    { date, exercise, reps: 8, rpe: '9' },
+    { date, exercise, reps: '8', rpe: '7' },
+    { date, exercise, reps: '8', rpe: '8' },
+    { date, exercise, reps: '8', rpe: '9' },
+    { date, exercise, reps: '8', rpe: '9' },
   ]))
 })
 
@@ -53,9 +53,9 @@ test('no backoffs', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 8, rpe: '7' },
-    { date, exercise, reps: 8, rpe: '8' },
-    { date, exercise, reps: 8, rpe: '9' },
+    { date, exercise, reps: '8', rpe: '7' },
+    { date, exercise, reps: '8', rpe: '8' },
+    { date, exercise, reps: '8', rpe: '9' },
   ]))
 })
 
@@ -70,11 +70,11 @@ test('backoffs -5% x 5 reps x 3 sets', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 1, rpe: '8' },
-    { date, exercise, reps: 5, rpe: '9' },
-    { date, exercise, reps: 5, rpe: '-5%' },
-    { date, exercise, reps: 5, rpe: '-5%' },
-    { date, exercise, reps: 5, rpe: '-5%' },
+    { date, exercise, reps: '1', rpe: '8' },
+    { date, exercise, reps: '5', rpe: '9' },
+    { date, exercise, reps: '5', rpe: '-5%' },
+    { date, exercise, reps: '5', rpe: '-5%' },
+    { date, exercise, reps: '5', rpe: '-5%' },
   ]))
 })
 
@@ -89,10 +89,10 @@ test('backoffs -5% x 6 reps', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 6, rpe: '7' },
-    { date, exercise, reps: 6, rpe: '8' },
-    { date, exercise, reps: 6, rpe: '9' },
-    { date, exercise, reps: 6, rpe: '-5%' },
+    { date, exercise, reps: '6', rpe: '7' },
+    { date, exercise, reps: '6', rpe: '8' },
+    { date, exercise, reps: '6', rpe: '9' },
+    { date, exercise, reps: '6', rpe: '-5%' },
   ]))
 })
 
@@ -107,7 +107,7 @@ test('opener', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 1, rpe: 'Opener' },
+    { date, exercise, reps: '1', rpe: 'Opener' },
   ]))
 })
 
@@ -149,16 +149,44 @@ test('sorts workouts by date and position', t => {
     date: '2020-05-04',
     exercise: 'Competition Style Bench Press',
     rpe: '70% e1RM',
-    reps: 6
+    reps: '6'
   }, {
     date: '2020-05-04',
     exercise: '3-0-0 Tempo RDL',
     rpe: '7',
-    reps: 10
+    reps: '10'
   }, {
     date: '2020-05-05',
     exercise: 'Competition Style Bench Press',
     rpe: '70% e1RM',
-    reps: 6
+    reps: '6'
+  }]))
+})
+
+test('handles rep range', t => {
+  const date = '2020-09-28'
+  const exercise = 'Upright Row'
+
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '15-20 @8 x 3 sets'
+  )
+
+  t.true(_.isEqual(sets, [{
+    date: '2020-09-28',
+    exercise: 'Upright Row',
+    rpe: '8',
+    reps: '15-20'
+  }, {
+    date: '2020-09-28',
+    exercise: 'Upright Row',
+    rpe: '8',
+    reps: '15-20'
+  }, {
+    date: '2020-09-28',
+    exercise: 'Upright Row',
+    rpe: '8',
+    reps: '15-20'
   }]))
 })

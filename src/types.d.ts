@@ -19,6 +19,6 @@ interface WorkoutsResponse {
 interface WorkoutSet {
   date: string
   exercise: string
-  reps: number
+  reps: string
   rpe: string
 }

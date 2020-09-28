@@ -12,6 +12,11 @@ yarn
 tsc --watch
 ```
 
+## Test
+```
+yarn test
+```
+
 ## Run
 ```
 TRUECOACH_GYM=sf-iron TRUECOACH_USERNAME='<your email>' TRUECOACH_PASSWORD='<your password>' node dest/src/index.js > output.csv

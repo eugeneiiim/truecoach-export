@@ -1,22 +1,23 @@
 import * as _ from 'lodash'
 
+function tokenize(delim: string, s: string): string[] {
+  return s.split(delim).map(s => s.trim())
+}
+
 // Ex: 8@9
 function parseRepsAndRpe(s: string) {
-  const [reps, rpe] = s.split('@')
-  return {
-    reps: parseInt(reps),
-    rpe
-  }
+  const [reps, rpe] = tokenize('@', s)
+  return { reps, rpe }
 }
 
 // Ex: "2 sets" or "5 reps"
 function parseNumSetsOrReps(s: string) {
-  return parseInt(s.split(' ')[0])
+  return s.split(' ')[0]
 }
 
 function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
   if (l === 'Opener') {
-    return [{ date, exercise, reps: 1, rpe: 'Opener' }]
+    return [{ date, exercise, reps: '1', rpe: 'Opener' }]
   }
 
   const xCount = (l.match(/x/g) || []).length
@@ -28,14 +29,14 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
     const lastWord = _.last(l.split(' '))
     if (lastWord === 'reps') {
       // Ex: -5% x 6 reps
-      const [rpe, repsStr] = _(l).split('x').map(s => s.trim()).value()
+      const [rpe, repsStr] = tokenize('x', l)
       return [{ date, exercise, reps: parseNumSetsOrReps(repsStr), rpe }]
     } else if (lastWord === 'sets') {
       // Ex: 8@9 x 2 sets
-      const [repsAndRpe, setsStr] = _(l).split('x').map(s => s.trim()).value()
+      const [repsAndRpe, setsStr] = tokenize('x', l)
       const { reps, rpe } = parseRepsAndRpe(repsAndRpe)
 
-      const numSets = parseNumSetsOrReps(setsStr)
+      const numSets = parseInt(parseNumSetsOrReps(setsStr))
       return _.map(_.range(numSets), _i => (
         { date, exercise, rpe, reps }
       ))
@@ -44,11 +45,10 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
     }
   } else if (xCount === 2) {
     // Ex: -5% x 4 reps x 2 sets
-    const [rpe, repsStr, setsStr] =
-      _(l).split('x').map(s => s.trim()).value()
+    const [rpe, repsStr, setsStr] = tokenize('x', l)
 
-    const reps = parseInt(repsStr.split(' ')[0])
-    const numSets = parseNumSetsOrReps(setsStr)
+    const reps = repsStr.split(' ')[0]
+    const numSets = parseInt(parseNumSetsOrReps(setsStr))
     return _.map(_.range(numSets), _i => (
       { date, exercise, rpe, reps }
     ))
