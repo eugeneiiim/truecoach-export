@@ -4,14 +4,14 @@ import * as _ from 'lodash'
 function parseRepsAndRpe(s: string) {
   const [reps, rpe] = s.split('@')
   return {
-    reps: parseInt(reps),
+    reps: reps.trim(),
     rpe
   }
 }
 
 // Ex: "2 sets" or "5 reps"
 function parseNumSetsOrReps(s: string) {
-  return parseInt(s.split(' ')[0])
+  return s.split(' ')[0]
 }
 
 function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
@@ -47,7 +47,7 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
     const [rpe, repsStr, setsStr] =
       _(l).split('x').map(s => s.trim()).value()
 
-    const reps = parseInt(repsStr.split(' ')[0])
+    const reps = repsStr.split(' ')[0]
     const numSets = parseNumSetsOrReps(setsStr)
     return _.map(_.range(numSets), _i => (
       { date, exercise, rpe, reps }
