@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-function tokenize(delim: string, s: string) {
+function tokenize(delim: string, s: string): string[] {
   return s.split(delim).map(s => s.trim())
 }
 
@@ -17,7 +17,7 @@ function parseNumSetsOrReps(s: string) {
 
 function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
   if (l === 'Opener') {
-    return [{ date, exercise, reps: 1, rpe: 'Opener' }]
+    return [{ date, exercise, reps: '1', rpe: 'Opener' }]
   }
 
   const xCount = (l.match(/x/g) || []).length
@@ -36,7 +36,7 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
       const [repsAndRpe, setsStr] = tokenize('x', l)
       const { reps, rpe } = parseRepsAndRpe(repsAndRpe)
 
-      const numSets = parseNumSetsOrReps(setsStr)
+      const numSets = parseInt(parseNumSetsOrReps(setsStr))
       return _.map(_.range(numSets), _i => (
         { date, exercise, rpe, reps }
       ))
@@ -48,7 +48,7 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
     const [rpe, repsStr, setsStr] = tokenize('x', l)
 
     const reps = repsStr.split(' ')[0]
-    const numSets = parseNumSetsOrReps(setsStr)
+    const numSets = parseInt(parseNumSetsOrReps(setsStr))
     return _.map(_.range(numSets), _i => (
       { date, exercise, rpe, reps }
     ))

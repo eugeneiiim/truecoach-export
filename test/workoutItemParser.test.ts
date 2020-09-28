@@ -107,7 +107,7 @@ test('opener', t => {
   )
 
   t.true(_.isEqual(sets, [
-    { date, exercise, reps: 1, rpe: 'Opener' },
+    { date, exercise, reps: '1', rpe: 'Opener' },
   ]))
 })
 
@@ -188,5 +188,5 @@ test('handles rep range', t => {
     exercise: 'Upright Row',
     rpe: '8',
     reps: '15-20'
-  }])
+  }]))
 })
