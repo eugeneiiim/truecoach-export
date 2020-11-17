@@ -26,7 +26,8 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
     const { reps, rpe } = parseRepsAndRpe(l)
     return [{ date, exercise, reps, rpe }]
   } else if (xCount === 1) {
-    const lastWord = _.last(l.split(' '))
+    const words = l.split(' ')
+    const lastWord = _.last(words)
     if (lastWord === 'reps') {
       // Ex: -5% x 6 reps
       const [rpe, repsStr] = tokenize('x', l)
@@ -38,9 +39,24 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
 
       const numSets = parseInt(parseNumSetsOrReps(setsStr))
       return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
-    } else {
-      throw new Error('unhandled: ' + l)
+    } else if (lastWord === 'weight') {
+      if (
+        words[words.length - 2] === 'same' &&
+        words[words.length - 3] === 'w/'
+      ) {
+        // Ex: '5 reps x 3 sets w/ same weight'
+        const reps = words[0]
+        const numSets = parseInt(words[3])
+        return _.map(_.range(numSets), (_i) => ({
+          date,
+          exercise,
+          rpe: 'same weight',
+          reps,
+        }))
+      }
     }
+
+    throw new Error('unhandled: ' + l)
   } else if (xCount === 2) {
     // Ex: -5% x 4 reps x 2 sets
     const [rpe, repsStr, setsStr] = tokenize('x', l)
