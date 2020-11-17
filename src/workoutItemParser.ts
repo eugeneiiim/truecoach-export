@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 
 function tokenize(delim: string, s: string): string[] {
-  return s.split(delim).map(s => s.trim())
+  return s.split(delim).map((s) => s.trim())
 }
 
 // Ex: 8@9
@@ -37,9 +37,7 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
       const { reps, rpe } = parseRepsAndRpe(repsAndRpe)
 
       const numSets = parseInt(parseNumSetsOrReps(setsStr))
-      return _.map(_.range(numSets), _i => (
-        { date, exercise, rpe, reps }
-      ))
+      return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
     } else {
       throw new Error('unhandled: ' + l)
     }
@@ -49,20 +47,23 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
 
     const reps = repsStr.split(' ')[0]
     const numSets = parseInt(parseNumSetsOrReps(setsStr))
-    return _.map(_.range(numSets), _i => (
-      { date, exercise, rpe, reps }
-    ))
+    return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
   } else {
     throw new Error('unhandled: ' + l)
   }
 }
 
-export function infoToSets(date: string, exercise: string, info: string): WorkoutSet[] {
-  const lines = _(info.trim()).split('\n')
-    .map(l => l.replace('•', '').trim())
+export function infoToSets(
+  date: string,
+  exercise: string,
+  info: string
+): WorkoutSet[] {
+  const lines = _(info.trim())
+    .split('\n')
+    .map((l) => l.replace('•', '').trim())
     .value()
 
-  return _.flatMap(lines, l => {
+  return _.flatMap(lines, (l) => {
     try {
       return processLine(date, exercise, l)
     } catch (e) {
@@ -72,7 +73,10 @@ export function infoToSets(date: string, exercise: string, info: string): Workou
   })
 }
 
-export function workoutsToSets(workouts: Workout[], workoutItems: WorkoutItem[]): WorkoutSet[] {
+export function workoutsToSets(
+  workouts: Workout[],
+  workoutItems: WorkoutItem[]
+): WorkoutSet[] {
   const workoutById = _.keyBy(workouts, 'id')
 
   return _(workoutItems)
@@ -81,8 +85,8 @@ export function workoutsToSets(workouts: Workout[], workoutItems: WorkoutItem[])
       return _.extend(item, { date: workout.due })
     })
     .sortBy(['date', 'position'])
-    .flatMap(
-      (item: WorkoutItem & { date: string }) => infoToSets(item.date, item.name.trim(), item.info)
+    .flatMap((item: WorkoutItem & { date: string }) =>
+      infoToSets(item.date, item.name.trim(), item.info)
     )
     .value()
 }
