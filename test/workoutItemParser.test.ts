@@ -190,3 +190,31 @@ test('handles rep range', t => {
     reps: '15-20'
   }]))
 })
+
+test('handles sets at same weight', t => {
+  const date = '2020-11-16'
+  const exercise = 'High Bar Squat'
+
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '5 reps x 3 sets w/ same weight'
+  )
+
+  t.true(_.isEqual(sets, [{
+    date,
+    exercise,
+    rpe: 'same weight',
+    reps: '5'
+  }, {
+    date,
+    exercise,
+    rpe: 'same weight',
+    reps: '5'
+  }, {
+    date,
+    exercise,
+    rpe: 'same weight',
+    reps: '5'
+  }]))
+})
