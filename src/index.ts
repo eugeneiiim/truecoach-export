@@ -15,8 +15,8 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
   await page.type('*[data-test="email"]', process.env.TRUECOACH_USERNAME)
   await page.type('*[data-test="password"]', process.env.TRUECOACH_PASSWORD)
 
-  return new Promise(async function(resolve, _reject) {
-    page.on('response', async response => {
+  return new Promise(async function (resolve, _reject) {
+    page.on('response', async (response) => {
       if (response.url().indexOf('proxy/api/clients/159147/workouts') !== -1) {
         const responseRaw = await response.text()
         resolve(JSON.parse(responseRaw) as WorkoutsResponse)
@@ -24,7 +24,7 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
       }
     })
 
-    const [loginButton] = await page.$x('//button[contains(., \'Log in\')]')
+    const [loginButton] = await page.$x("//button[contains(., 'Log in')]")
     await loginButton.click()
   })
 }
@@ -33,14 +33,14 @@ async function queryTruecoachWorkouts(): Promise<WorkoutsResponse> {
 //   return JSON.parse(await fsPromises.readFile('./sample.json', 'utf8'))
 // }
 
-(async () => {
+;(async () => {
   const workoutsResponse = await queryTruecoachWorkouts()
 
   const workouts = workoutsResponse.workouts
   const workoutItems = workoutsResponse.workout_items
 
   const workoutSets = workoutItemParser.workoutsToSets(workouts, workoutItems)
-  _.each(workoutSets, s => {
-    console.log(`${s.date},${s.exercise},${s.reps},${s.rpe}`);
+  _.each(workoutSets, (s) => {
+    console.log(`${s.date},${s.exercise},${s.reps},${s.rpe}`)
   })
-})();
+})()
