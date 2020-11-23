@@ -243,3 +243,36 @@ test('handles sets at same weight', (t) => {
     ])
   )
 })
+
+test('handles small dot', (t) => {
+  const date = '2020-11-23'
+  const exercise = 'Comp Squat'
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '∙ 4@7\n∙ 4@8\n∙ 4@9'
+  )
+
+  t.true(
+    _.isEqual(sets, [
+      {
+        date,
+        exercise,
+        rpe: '7',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '8',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '9',
+        reps: '4',
+      },
+    ])
+  )
+})

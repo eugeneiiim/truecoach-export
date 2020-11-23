@@ -76,7 +76,7 @@ export function infoToSets(
 ): WorkoutSet[] {
   const lines = _(info.trim())
     .split('\n')
-    .map((l) => l.replace('•', '').trim())
+    .map((l) => l.replace('•', '').replace('∙', '').trim())
     .value()
 
   return _.flatMap(lines, (l) => {
