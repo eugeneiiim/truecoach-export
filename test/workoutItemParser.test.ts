@@ -276,3 +276,42 @@ test('handles small dot', (t) => {
     ])
   )
 })
+
+test('handles x 2', (t) => {
+  const date = '2020-11-25'
+  const exercise = 'Competition Style Squat'
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '∙ 10@6\n∙ 10@7\n∙ 10@8 x 2'
+  )
+
+  t.true(
+    _.isEqual(sets, [
+      {
+        date,
+        exercise,
+        rpe: '6',
+        reps: '10',
+      },
+      {
+        date,
+        exercise,
+        rpe: '7',
+        reps: '10',
+      },
+      {
+        date,
+        exercise,
+        rpe: '8',
+        reps: '10',
+      },
+      {
+        date,
+        exercise,
+        rpe: '8',
+        reps: '10',
+      },
+    ])
+  )
+})
