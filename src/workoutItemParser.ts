@@ -32,8 +32,10 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
       // Ex: -5% x 6 reps
       const [rpe, repsStr] = tokenize('x', l)
       return [{ date, exercise, reps: parseNumSetsOrReps(repsStr), rpe }]
-    } else if (lastWord === 'sets') {
-      // Ex: 8@9 x 2 sets
+    } else if (lastWord === 'sets' || words.length === 3) {
+      // Ex:
+      // - 8@9 x 2 sets
+      // - 10@8 x 2
       const [repsAndRpe, setsStr] = tokenize('x', l)
       const { reps, rpe } = parseRepsAndRpe(repsAndRpe)
 
