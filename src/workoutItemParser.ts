@@ -64,7 +64,13 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
       const [rpe, repsStr, setsStr] = tokenize('x', l)
 
       const reps = repsStr.split(' ')[0]
-      const numSets = parseInt(parseNumSetsOrReps(setsStr))
+      const setsNum = parseNumSetsOrReps(setsStr)
+
+      // Handle range e.g. "2-3" (taking the larger number) or individual number (e.g. "3")
+      const numSets = parseInt(
+        setsNum.indexOf('-') !== -1 ? setsNum.split('-')[1] : setsNum
+      )
+
       return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
     } else if (_.last(words) === 'e1RM') {
       const [repsStr, setsStr, rpe] = tokenize('x', l)
