@@ -21,12 +21,12 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
   }
 
   const xCount = (l.match(/x/g) || []).length
+  const words = l.split(' ')
   if (xCount === 0) {
     // Ex: 8@9
     const { reps, rpe } = parseRepsAndRpe(l)
     return [{ date, exercise, reps, rpe }]
   } else if (xCount === 1) {
-    const words = l.split(' ')
     const lastWord = _.last(words)
     if (lastWord === 'reps') {
       // Ex: -5% x 6 reps
@@ -40,6 +40,7 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
       const { reps, rpe } = parseRepsAndRpe(repsAndRpe)
 
       const numSets = parseInt(parseNumSetsOrReps(setsStr))
+
       return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
     } else if (lastWord === 'weight') {
       if (
@@ -57,18 +58,31 @@ function processLine(date: string, exercise: string, l: string): WorkoutSet[] {
         }))
       }
     }
-
-    throw new Error('unhandled: ' + l)
   } else if (xCount === 2) {
-    // Ex: -5% x 4 reps x 2 sets
-    const [rpe, repsStr, setsStr] = tokenize('x', l)
+    if (_.last(words) === 'sets') {
+      // Ex: -5% x 4 reps x 2 sets
+      const [rpe, repsStr, setsStr] = tokenize('x', l)
 
-    const reps = repsStr.split(' ')[0]
-    const numSets = parseInt(parseNumSetsOrReps(setsStr))
-    return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
-  } else {
-    throw new Error('unhandled: ' + l)
+      const reps = repsStr.split(' ')[0]
+      const setsNum = parseNumSetsOrReps(setsStr)
+
+      // Handle range e.g. "2-3" (taking the larger number) or individual number (e.g. "3")
+      const numSets = parseInt(
+        setsNum.indexOf('-') !== -1 ? setsNum.split('-')[1] : setsNum
+      )
+
+      return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
+    } else if (_.last(words) === 'e1RM') {
+      const [repsStr, setsStr, rpe] = tokenize('x', l)
+
+      const reps = repsStr.split(' ')[0]
+      const numSets = parseInt(parseNumSetsOrReps(setsStr))
+
+      return _.map(_.range(numSets), (_i) => ({ date, exercise, rpe, reps }))
+    }
   }
+
+  throw new Error('unhandled: ' + l)
 }
 
 export function infoToSets(
