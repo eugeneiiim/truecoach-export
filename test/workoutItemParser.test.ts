@@ -343,25 +343,25 @@ test('handles 3 reps x 4 sets x 77% e1RM', (t) => {
         date,
         exercise,
         rpe: '77% e1RM',
-        reps: '4',
+        reps: '3',
       },
       {
         date,
         exercise,
         rpe: '77% e1RM',
-        reps: '4',
+        reps: '3',
       },
       {
         date,
         exercise,
         rpe: '77% e1RM',
-        reps: '4',
+        reps: '3',
       },
       {
         date,
         exercise,
         rpe: '77% e1RM',
-        reps: '4',
+        reps: '3',
       },
     ])
   )
