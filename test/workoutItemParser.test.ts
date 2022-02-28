@@ -315,3 +315,54 @@ test('handles x 2', (t) => {
     ])
   )
 })
+
+test('handles 3 reps x 4 sets x 77% e1RM', (t) => {
+  const date = '2022-02-26'
+  const exercise = 'Competition Style Squat'
+  const sets = workoutItemParser.infoToSets(
+    date,
+    exercise,
+    '∙ 1@8\n∙ 4@8\n∙ 3 reps x 4 sets x 77% e1RM'
+  )
+
+  t.true(
+    _.isEqual(sets, [
+      {
+        date,
+        exercise,
+        rpe: '8',
+        reps: '1',
+      },
+      {
+        date,
+        exercise,
+        rpe: '8',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '77% e1RM',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '77% e1RM',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '77% e1RM',
+        reps: '4',
+      },
+      {
+        date,
+        exercise,
+        rpe: '77% e1RM',
+        reps: '4',
+      },
+    ])
+  )
+})
